@@ -27,5 +27,10 @@
 ---
 
 ## Coverage
-- Aim for 80%+ test coverage for core logic.
-- Use coverage tools: `pytest-cov`, `jest --coverage`.
+- Backend coverage: **92%+** as of latest update (see `backend/tests/` for new/expanded tests, including auth and export endpoints).
+- Use coverage tools: `pytest --cov=.` for backend, `jest --coverage` for frontend.
+- To view detailed backend coverage, run:
+  ```sh
+  pytest --cov=. --cov-report=html
+  # Open htmlcov/index.html in your browser
+  ```

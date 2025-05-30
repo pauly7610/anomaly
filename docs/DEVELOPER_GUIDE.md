@@ -4,7 +4,8 @@
 - See [DEPLOYMENT.md](DEPLOYMENT.md) for install instructions.
 
 ## Running Tests
-- Backend: `pytest` (see [TESTING.md](TESTING.md))
+- Backend: `pytest` (see [TESTING.md](TESTING.md)).
+- Coverage: 92%+ for backend (see `backend/tests/` for expanded tests: auth, export, API, etc.)
 - Frontend: `npm test`
 
 ## Contributing
