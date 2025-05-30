@@ -14,9 +14,7 @@ class TransactionCreate(TransactionBase):
 class TransactionOut(TransactionBase):
     id: int
     is_anomaly: bool
-
-    class Config:
-        orm_mode = True
+    model_config = dict(from_attributes=True)
 
 class UserCreate(BaseModel):
     email: str
@@ -25,6 +23,4 @@ class UserCreate(BaseModel):
 class UserOut(BaseModel):
     id: int
     email: str
-
-    class Config:
-        orm_mode = True
+    model_config = dict(from_attributes=True)
