@@ -29,6 +29,10 @@ Thumbs.db
 *.pyo
 *.sqlite3
 
+# Coverage reports
+htmlcov/
+.coverage
+
 # Ignore data and secrets
 docs/.DS_Store
 sample_transactions.*
