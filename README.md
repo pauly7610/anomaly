@@ -2,7 +2,18 @@
 
 ![Coverage](https://img.shields.io/badge/coverage-96%25-brightgreen)
 
-A modern web application for uploading, analyzing, and visualizing synthetic financial transaction data with anomaly detection and advanced analytics.
+A modern financial transaction monitoring platform for uploading, analyzing, and visualizing synthetic or real-world transaction data, with anomaly detection and advanced analytics.
+
+**Purpose:**
+This platform is designed for financial institutions and fintechs seeking robust, real-time monitoring and analytics for transaction flows. It supports:
+- Real-time trading system observability
+- Fraud detection for core banking
+- Compliance auditing (e.g., SEC Rule 17a-4)
+
+## Use Cases
+- **Real-time trading system observability:** Detect anomalies in trading volumes, price spikes, or unusual flow patterns as they happen.
+- **Fraud detection for core banking:** Identify suspicious transactions, rapid sequences, or high-value anomalies in retail and commercial banking environments.
+- **Compliance auditing (e.g., SEC Rule 17a-4):** Maintain immutable records and monitor for regulatory compliance events in transaction data.
 
 ## Features
 - Upload CSV or PDF transaction data
@@ -23,6 +34,7 @@ A modern web application for uploading, analyzing, and visualizing synthetic fin
 - **Frontend:** Next.js (React), TypeScript, Tailwind CSS, Recharts
 - **Backend:** FastAPI, SQLAlchemy, PostgreSQL
 - **Other:** reportlab (PDF), JWT auth
+
 
 ## Quickstart
 1. Clone the repo

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/PaulC/Downloads/development/anomaly/mlruns/0/5d5b683a0a0441358891202b5f7e82c8/artifacts
+end_time: 1748654458411
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 5d5b683a0a0441358891202b5f7e82c8
+run_name: bright-bear-925
+run_uuid: 5d5b683a0a0441358891202b5f7e82c8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748654447322
+status: 3
+tags: []
+user_id: PaulC
