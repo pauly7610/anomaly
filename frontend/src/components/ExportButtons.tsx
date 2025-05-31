@@ -9,6 +9,7 @@ interface ExportFilters {
 export default function ExportButtons({ filters }: { filters?: ExportFilters }) {
   const [downloading, setDownloading] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [anchorEl, setAnchorEl] = useState<HTMLAnchorElement | null>(null);
 
   const handleDownload = async (type: "csv" | "pdf") => {
     setDownloading(type);

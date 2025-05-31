@@ -59,9 +59,15 @@ export default function UploadForm({ onUpload }: { onUpload?: () => void }) {
       className="bg-white shadow rounded px-6 py-6 flex flex-col items-center gap-4 w-full max-w-md"
       onSubmit={handleSubmit}
     >
-      <label className="font-medium">Upload Transactions (CSV or PDF):</label>
+      <label
+        className="font-medium"
+        htmlFor="file-upload"
+      >
+        Upload Transactions (CSV or PDF):
+      </label>
       <input
         ref={inputRef}
+        id="file-upload"
         type="file"
         accept=".csv,application/pdf"
         className="block w-full border border-gray-300 rounded p-2"

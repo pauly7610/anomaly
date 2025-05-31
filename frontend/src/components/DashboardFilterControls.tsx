@@ -7,10 +7,16 @@ export default function DashboardFilterControls({ filters, setFilters }: {
 }) {
   return (
     <div className="flex gap-4 items-center mb-4">
-      <label className="text-sm font-medium">Date Range:</label>
+      <label
+        className="text-sm font-medium"
+        htmlFor="date-range-start"
+      >
+        Date Range:
+      </label>
       <input
-        type="date"
+        id="date-range-start"
         className="border rounded p-1"
+        type="date"
         value={filters.start_date}
         onChange={e => setFilters({ ...filters, start_date: e.target.value })}
       />
