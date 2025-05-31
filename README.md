@@ -1,5 +1,7 @@
 # Anomaly Detection Web App
 
+![Coverage](https://img.shields.io/badge/coverage-87.67%25-brightgreen)
+
 A modern web application for uploading, analyzing, and visualizing synthetic financial transaction data with anomaly detection and advanced analytics.
 
 ## Features
@@ -11,6 +13,7 @@ A modern web application for uploading, analyzing, and visualizing synthetic fin
 - Secure authentication (JWT)
 - Responsive, user-friendly UI
 - **92%+ backend code coverage with robust API and auth tests**
+- **87.67% frontend code coverage with comprehensive component and integration tests**
 
 ## Tech Stack
 - **Frontend:** Next.js (React), TypeScript, Tailwind CSS, Recharts
@@ -23,8 +26,9 @@ A modern web application for uploading, analyzing, and visualizing synthetic fin
 
 ## Testing & Coverage
 - Backend: `pytest --cov=.` (see [`docs/TESTING.md`](docs/TESTING.md))
-- Coverage: 92%+ (see `backend/tests/` for new and expanded tests)
+  - Coverage: 92%+ (see `backend/tests/` for new and expanded tests)
 - Frontend: `npm test` (Jest/RTL)
+  - Coverage: 87.67% (see `frontend/src/components/__tests__/` for all major component and integration tests)
 
 ## Documentation
 - [Product Requirements (PRD)](docs/PRD.md)
