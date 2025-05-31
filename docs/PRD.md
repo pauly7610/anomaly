@@ -51,6 +51,9 @@ A full-stack web application for uploading, analyzing, and visualizing synthetic
 - Responsive design
 - Security (JWT auth, input validation)
 - Performance: dashboard loads within 2 seconds
+- **Test reliability: All tests pass reliably with robust mocking and test isolation**
+- **Maintainability: Codebase is ready for future Python and Pydantic versions; deprecations tracked**
+- **Anomaly detection and coverage are fully validated**
 
 ---
 

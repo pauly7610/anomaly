@@ -59,6 +59,26 @@ def test_get_current_user_valid(client, make_token):
     from models import User
     from passlib.context import CryptContext
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def test_get_current_user_missing_sub(client, make_token):
+    from routes.auth_utils import SECRET_KEY, ALGORITHM
+    import jwt
+    bad_token = jwt.encode({}, SECRET_KEY, algorithm=ALGORITHM)
+    headers = {"Authorization": f"Bearer {bad_token}"}
+    resp = client.get("/dashboard/", headers=headers)
+    assert resp.status_code == 401
+
+def test_get_current_user_invalid_signature(client, make_token):
+    import jwt
+    bad_token = jwt.encode({"sub": "test@example.com"}, "wrongkey", algorithm="HS256")
+    headers = {"Authorization": f"Bearer {bad_token}"}
+    resp = client.get("/dashboard/", headers=headers)
+    assert resp.status_code == 401
+
+    # Insert user into the test DB before valid token request
+    from models import User
+    from passlib.context import CryptContext
+    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
     db = client.sessionmaker()
     try:
         user = User(email="test@example.com", hashed_password=pwd_context.hash("password"))
@@ -66,6 +86,7 @@ def test_get_current_user_valid(client, make_token):
         db.commit()
     finally:
         db.close()
+
     token = make_token()
     headers = {"Authorization": f"Bearer {token}"}
     resp = client.get("/dashboard/", headers=headers)

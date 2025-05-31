@@ -59,6 +59,18 @@ def test_dashboard_requires_auth(client):
     resp = client.get("/dashboard/")
     assert resp.status_code == 401
 
+def test_dashboard_no_data(client):
+    resp = client.get("/dashboard/")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert isinstance(data, dict)
+
+def test_dashboard_invalid_date_filter(client):
+    resp = client.get("/dashboard/?start_date=notadate")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert isinstance(data, dict)
+
 def test_dashboard_with_auth(client):
     from main import app
     from routes import dashboard

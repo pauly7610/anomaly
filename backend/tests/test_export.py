@@ -60,6 +60,20 @@ def test_export_csv_filters(client, setup_transactions):
     assert resp.status_code == 200
     assert "abc" in resp.text and "def" not in resp.text
 
+def test_export_csv_unauthorized(client):
+    client.app.dependency_overrides.clear()
+    resp = client.get("/export/csv")
+    assert resp.status_code == 401
+
+def test_export_pdf_unauthorized(client):
+    client.app.dependency_overrides.clear()
+    resp = client.get("/export/pdf")
+    assert resp.status_code == 401
+
+def test_export_csv_no_matching_filter(client, setup_transactions):
+    resp = client.get("/export/csv?customer_id=notarealuser")
+    assert resp.status_code in (200, 404)
+
     resp = client.get("/export/csv?is_anomaly=true")
     assert resp.status_code in (200, 404)  # If no anomalies, may be empty
 

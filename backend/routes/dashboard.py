@@ -25,7 +25,8 @@ def dashboard_stats(db: Session = Depends(get_db), current_user=Depends(get_curr
     avg_amount = sum([x[0] for x in avg_amount]) / total if total else 0
 
     # 1. Volume over time (last 30 days)
-    today = datetime.utcnow().date()
+    from datetime import timezone
+    today = datetime.now(timezone.utc).date()
     start_day = today - timedelta(days=29)
     volume = db.query(
         func.date(Transaction.timestamp), func.count()

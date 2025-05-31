@@ -103,6 +103,21 @@ def test_register_duplicate_email(client):
     assert response.status_code == 400
     assert response.json()["detail"] == "Email already registered"
 
+def test_register_missing_fields(client):
+    response = client.post("/auth/register", json={"email": "", "password": ""})
+    assert response.status_code == 422 or response.status_code == 400
+
+def test_register_duplicate(client):
+    # Register once
+    response1 = client.post("/auth/register", json={"email": "dupe@example.com", "password": "pw"})
+    # Register again
+    response2 = client.post("/auth/register", json={"email": "dupe@example.com", "password": "pw"})
+    assert response2.status_code == 400
+
+def test_login_missing_password(client):
+    response = client.post("/auth/login", json={"email": "user@example.com"})
+    assert response.status_code in (400, 422)
+
 def test_login_success(client):
     # Register the user first via the API
     reg_resp = client.post("/auth/register", json={"email": "login@example.com", "password": "secret"})
@@ -113,6 +128,10 @@ def test_login_success(client):
     data = response.json()
     assert "access_token" in data
     assert data["token_type"] == "bearer"
+
+def test_login_missing_fields(client):
+    resp = client.post("/auth/login", json={"email": "test2@example.com"})
+    assert resp.status_code == 422
 
 def test_login_invalid_password(client):
     # Register the user first
@@ -134,7 +153,8 @@ def test_token_expiry():
     decoded = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM], options={"verify_exp": False})
     assert decoded["sub"] == "test@example.com"
     assert "exp" in decoded
-    assert datetime.utcfromtimestamp(decoded["exp"]) < datetime.utcnow()
+    from datetime import timezone
+    assert datetime.fromtimestamp(decoded["exp"], timezone.utc) < datetime.now(timezone.utc)
 
 def test_response_does_not_return_hashed_password(client):
     response = client.post("/auth/register", json={"email": "safe@example.com", "password": "pass"})

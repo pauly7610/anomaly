@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/PaulC/Downloads/development/anomaly/backend/mlruns/0/1caa534b1b93430da6a3bd9e00ae67aa/artifacts
+end_time: 1748657639845
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 1caa534b1b93430da6a3bd9e00ae67aa
+run_name: mysterious-gull-833
+run_uuid: 1caa534b1b93430da6a3bd9e00ae67aa
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748657628924
+status: 3
+tags: []
+user_id: PaulC

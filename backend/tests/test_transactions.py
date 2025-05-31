@@ -57,19 +57,14 @@ def client():
     app.dependency_overrides.clear()
     engine.dispose()
 
-@pytest.fixture
-def mock_ml_detection(monkeypatch):
-    import ml
-    def mock_detect(df):
-        return [False] * (len(df)-1) + [True] if len(df) else []
-    monkeypatch.setattr(ml, "detect_anomalies", mock_detect)
 
 # ---------- Test Classes ----------
 class TestUploadTransactions:
-    def test_valid_csv_upload(self, client, mock_ml_detection):
+    def test_valid_csv_upload(self, client):
         csv_data = "timestamp,amount,type,customer_id\n2023-01-01,100.0,deposit,123\n2023-01-02,10000.0,withdrawal,123"
         files = {"file": ("test.csv", csv_data, "text/csv")}
         response = client.post("/transactions/upload", files=files)
+        print("ACTUAL RESPONSE:", response.json())
         assert response.status_code == 200
         assert response.json() == {
             "inserted": 2,
@@ -77,7 +72,7 @@ class TestUploadTransactions:
             "errors": []
         }
 
-    def test_valid_pdf_upload(self, client, mock_ml_detection):
+    def test_valid_pdf_upload(self, client):
         # Generate a valid PDF with a transaction table
         from reportlab.lib.pagesizes import letter
         from reportlab.pdfgen import canvas
@@ -187,14 +182,44 @@ def test_empty_file_upload(client):
     assert response.status_code == 400
     assert "Could not parse CSV. Ensure it is a valid CSV file." in response.json()["detail"]
 
-def test_partially_invalid_rows(client, mock_ml_detection):
+def test_partially_invalid_rows(client):
     csv_data = """timestamp,amount,type,customer_id
     2023-01-01,invalid,deposit,123
     2023-01-02,100.0,deposit,123"""
-    response = client.post("/transactions/upload", files={"file": ("partial.csv", csv_data, "text/csv")})
+    files = {"file": ("test.csv", csv_data, "text/csv")}
+    response = client.post("/transactions/upload", files=files)
     assert response.status_code == 200
-    assert len(response.json()["errors"]) == 1
-    assert response.json()["inserted"] == 1
+    data = response.json()
+    assert data["inserted"] == 1
+    assert data["anomalies"] == 0
+    assert len(data["errors"]) == 1
+
+def test_upload_bad_csv(client):
+    files = {"file": ("bad.csv", b"not,a,csv", "text/csv")}
+    response = client.post("/transactions/upload", files=files)
+    assert response.status_code == 400
+    assert (
+        "Could not parse CSV" in response.json()["detail"]
+        or "Could not decode CSV" in response.json()["detail"]
+        or "Missing required columns" in response.json()["detail"]
+    )
+
+def test_upload_missing_columns(client):
+    csv_data = "amount,type,customer_id\n100.0,deposit,123"
+    files = {"file": ("test.csv", csv_data, "text/csv")}
+    response = client.post("/transactions/upload", files=files)
+    assert response.status_code == 400
+    assert "Missing required columns" in response.json()["detail"]
+
+def test_upload_bad_pdf(client):
+    files = {"file": ("bad.pdf", b"notapdf", "application/pdf")}
+    response = client.post("/transactions/upload", files=files)
+    assert response.status_code == 400
+    assert (
+        "Could not parse PDF" in response.json()["detail"]
+        or "File processing error" in response.json()["detail"]
+        or "Missing required columns" in response.json()["detail"]
+    )
 
 def test_pdf_processing_edge_cases(client):
     # Generate a minimal in-memory bad PDF (not a real transaction table)

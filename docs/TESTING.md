@@ -27,7 +27,7 @@
 ---
 
 ## Coverage
-- Backend coverage: **92%+** as of latest update (see `backend/tests/` for new/expanded tests, including auth and export endpoints).
+- Backend coverage: **96%** as of latest update (see `backend/tests/` for new/expanded tests, including auth, export endpoints, and registration validation).
 - Use coverage tools: `pytest --cov=.` for backend, `jest --coverage` for frontend.
 - To view detailed backend coverage, run:
   ```sh

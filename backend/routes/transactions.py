@@ -3,10 +3,13 @@ from sqlalchemy.orm import Session
 from database import SessionLocal
 from models import Transaction
 from schemas import TransactionOut
-from ml import detect_anomalies
+import ml
 import pandas as pd
 from io import StringIO
 from datetime import datetime
+from utils.telemetry import anomaly_counter
+from utils.alerts import send_email_alert
+from fastapi import BackgroundTasks
 
 router = APIRouter(prefix="/transactions", tags=["transactions"])
 
@@ -20,7 +23,7 @@ def get_db():
 from routes.auth_utils import get_current_user
 
 @router.post("/upload", response_model=dict)
-def upload_transactions(file: UploadFile = File(...), db: Session = Depends(get_db), current_user=Depends(get_current_user)):
+async def upload_transactions(file: UploadFile = File(...), db: Session = Depends(get_db), current_user=Depends(get_current_user), background_tasks: BackgroundTasks = None):
     """
     Upload a CSV or PDF containing transactions. Validates input, runs anomaly detection, and stores results.
     Returns number of inserted transactions, anomalies, and any row errors.
@@ -107,7 +110,7 @@ def upload_transactions(file: UploadFile = File(...), db: Session = Depends(get_
 
     clean_df = pd.DataFrame(valid_rows)
     # Run anomaly detection
-    anomalies = detect_anomalies(clean_df)
+    anomalies = ml.detect_anomalies(clean_df)
     clean_df['is_anomaly'] = anomalies
     # Store in DB
     for _, row in clean_df.iterrows():
@@ -122,7 +125,7 @@ def upload_transactions(file: UploadFile = File(...), db: Session = Depends(get_
     db.commit()
     return {
         "inserted": len(clean_df),
-        "anomalies": int(clean_df['is_anomaly'].sum()),
+        "anomalies": sum(anomalies),
         "errors": errors
     }
 

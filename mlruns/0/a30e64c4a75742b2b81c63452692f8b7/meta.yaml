@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/PaulC/Downloads/development/anomaly/mlruns/0/a30e64c4a75742b2b81c63452692f8b7/artifacts
+end_time: 1748654469011
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: a30e64c4a75742b2b81c63452692f8b7
+run_name: learned-tern-289
+run_uuid: a30e64c4a75742b2b81c63452692f8b7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748654459354
+status: 3
+tags: []
+user_id: PaulC

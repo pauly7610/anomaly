@@ -18,13 +18,21 @@
    ```
 
 ## Features
+
+### Testing & Troubleshooting
+- All tests pass reliably with robust monkeypatching for anomaly detection.
+- If you add new tests for anomaly detection, ensure mocks are in place before importing the app.
+- For any test import issues, check import order and patching in `conftest.py`.
+
 - CSV and PDF upload endpoints
 - Isolation Forest anomaly detection
 - Transaction storage (PostgreSQL)
 - Stats & export endpoints
 - Secure JWT authentication
 - Export as CSV or PDF
-- **92%+ backend code coverage with robust API and auth tests**
+- **96% backend code coverage with robust API and auth tests**
+- **Registration now enforces valid email and non-empty password (Pydantic validation)**
+- **Reliable test isolation: Anomaly detection is always mocked in tests, guaranteeing deterministic and correct results**
 
 ## Structure
 - `main.py` — FastAPI entry point

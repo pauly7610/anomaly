@@ -1,6 +1,6 @@
 # Anomaly Detection Web App
 
-![Coverage](https://img.shields.io/badge/coverage-87.67%25-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-96%25-brightgreen)
 
 A modern web application for uploading, analyzing, and visualizing synthetic financial transaction data with anomaly detection and advanced analytics.
 
@@ -12,8 +12,12 @@ A modern web application for uploading, analyzing, and visualizing synthetic fin
 - Export filtered data as CSV or PDF
 - Secure authentication (JWT)
 - Responsive, user-friendly UI
-- **92%+ backend code coverage with robust API and auth tests**
+- **96% backend code coverage with robust API and auth tests**
+- **Registration now enforces valid email and non-empty password (Pydantic validation)**
 - **87.67% frontend code coverage with comprehensive component and integration tests**
+- **Reliable test isolation: Anomaly detection is now always mocked in tests, ensuring deterministic and correct results**
+- **Bugfix: Anomaly count now reflects the number of actual anomalies, not just row count**
+- **Ready for Python 3.14+: Deprecation warnings tracked and future-proofing planned**
 
 ## Tech Stack
 - **Frontend:** Next.js (React), TypeScript, Tailwind CSS, Recharts

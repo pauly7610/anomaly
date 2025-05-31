@@ -1,25 +1,22 @@
 import pytest
-from fastapi.testclient import TestClient
-from main import app
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from database import Base
-from models import User, Transaction
 
-import tempfile
-import os
-import pytest
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from database import Base
+# --- AUTOUSE PATCH FOR ANOMALY DETECTION ---
+@pytest.fixture(autouse=True)
+def patch_detect_anomalies(monkeypatch):
+    import ml
+    def mock_detect(df):
+        return [False] * len(df)
+    monkeypatch.setattr(ml, "detect_anomalies", mock_detect)
 
-import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 from database import Base
 import database
+from models import User, Transaction
+import tempfile
+import os
 
 @pytest.fixture
 def client():

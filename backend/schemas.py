@@ -14,11 +14,15 @@ class TransactionCreate(TransactionBase):
 class TransactionOut(TransactionBase):
     id: int
     is_anomaly: bool
+    is_fraud: bool = False
+    fraud_reason: Optional[str] = None
     model_config = dict(from_attributes=True)
 
+from pydantic import EmailStr, constr
+
 class UserCreate(BaseModel):
-    email: str
-    password: str
+    email: EmailStr
+    password: constr(min_length=1)
 
 class UserOut(BaseModel):
     id: int
