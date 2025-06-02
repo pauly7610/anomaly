@@ -10,13 +10,36 @@ This ADR documents the core architecture of the financial transaction monitoring
 
 ![Platform Architecture](architecture.png)
 
+### 2025 Enterprise Layers
+
+```
+┌─────────────────────────────────────────────────┐
+│ 🏢 Enterprise Integration & Automation          │
+├─────────────────────────────────────────────────┤
+│ • AIOps Automation Engine                       │
+│ • Incident Response Orchestration               │
+│ • Banking System Integration Hub                │
+│ • Compliance & Audit Engine                     │
+│ • Alert Management & Escalation                 │
+└─────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────┐
+│ 🔄 Streaming & Real-time Processing             │
+├─────────────────────────────────────────────────┤
+│ • Kafka Event Streaming (simulated)             │
+│ • WebSocket Real-time Updates                   │
+│ • Stream Processing Engine                      │
+│ • Event-driven Architecture                     │
+└─────────────────────────────────────────────────┘
+```
 
 ## Data Flow Description
 
 1. **User Interaction / Data Upload**: Users upload transaction data (CSV, PDF) via the web UI.
-2. **API & Telemetry**: FastAPI endpoints receive the data, and telemetry is collected via OpenTelemetry for observability and monitoring.
-3. **ML & Analytics**: Data is preprocessed and features are engineered. Anomaly and fraud detection is performed using Isolation Forest and business rules. Results are stored in PostgreSQL.
-4. **Dashboard UI**: The frontend (Next.js) fetches analytics and results via REST API, providing interactive dashboards and visualizations. Telemetry data may also be surfaced for operational monitoring.
+2. **Enterprise Integration & Automation**: Automated workflows, banking integration, compliance, and incident response.
+3. **Streaming & Real-time Processing**: Kafka/event streaming, WebSocket updates, real-time analytics.
+4. **API & Telemetry**: FastAPI endpoints receive the data, and telemetry is collected via OpenTelemetry for observability and monitoring.
+5. **ML & Analytics**: Data is preprocessed and features are engineered. Ensemble anomaly and fraud detection is performed using Isolation Forest, LSTM, and Random Forest. Results are stored in PostgreSQL.
+6. **Dashboard UI**: The frontend (Next.js) fetches analytics and results via REST API and WebSocket, providing interactive dashboards and visualizations. Telemetry data may also be surfaced for operational monitoring.
 
 ---
 

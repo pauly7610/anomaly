@@ -10,6 +10,9 @@ A full-stack web application for uploading, analyzing, and visualizing synthetic
 - Provide advanced analytics and data visualizations
 - Enable secure, authenticated access
 - Allow export of filtered data (CSV/PDF)
+- Deliver enterprise-grade automation, integration, and observability
+- Support real-time streaming, incident response, and compliance workflows
+- Provide C-suite operational intelligence and demo-ready executive dashboards
 
 ### Key Features
 - Data upload (CSV/PDF)

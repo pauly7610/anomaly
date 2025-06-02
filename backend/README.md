@@ -19,14 +19,15 @@
 
 ## Features
 
-### 2025 Compatibility & Upgrades
-- OpenTelemetry stack pinned to 1.24.0/0.45b0 for compatibility
-- mlflow upgraded to 2.22.0
-- Python 3.14 readiness: deprecated APIs tracked and mitigated
-- Test coverage at 92%+
-- Direct ML/model test coverage and robust test isolation
-- requirements.txt, ADR, PRD updated for 2025
-- Troubleshooting: If you encounter OpenTelemetry conflicts, ensure all OpenTelemetry packages are pinned to the 1.24.0/0.45b0 family
+### 2025 Enterprise Upgrades
+- **Enterprise modules:** automation_engine.py, compliance_engine.py, integration_hub.py, streaming_processor.py
+- **Distributed tracing:** End-to-end OpenTelemetry tracing across ML pipeline
+- **Custom business metrics:** financial_anomaly_severity_score, trading_volume_deviation_percentage, compliance_risk_score
+- **Event-driven architecture:** Streaming processor, Kafka simulation, WebSocket updates
+- **AI/ML enhancements:** Ensemble orchestration, real-time drift detection, explainable AI (SHAP), automated retraining
+- **Demo readiness:** Full integration with new frontend enterprise features and dashboards
+- **Test coverage:** 96%+ with robust API and auth tests
+- **Requirements, ADR, PRD updated for 2025**
 
 ### Testing & Troubleshooting
 - All tests pass reliably with robust monkeypatching for anomaly detection.
