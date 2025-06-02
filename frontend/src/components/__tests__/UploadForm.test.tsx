@@ -37,7 +37,10 @@ describe('UploadForm additional coverage', () => {
     const file = new File(['1,2,3'], 'test.csv', { type: 'text/csv' });
     const input = screen.getByLabelText(/Upload/i);
     fireEvent.change(input, { target: { files: [file] } });
-    fireEvent.submit(input.closest('form'));
+    const form = input.closest('form');
+    if (form) {
+      fireEvent.submit(form as Element); // Add null check and type casting
+    }
     await waitFor(() => expect(screen.getByText(/fail/)).toBeInTheDocument());
   });
 
@@ -47,7 +50,10 @@ describe('UploadForm additional coverage', () => {
     const file = new File(['1,2,3'], 'test.csv', { type: 'text/csv' });
     const input = screen.getByLabelText(/Upload/i);
     fireEvent.change(input, { target: { files: [file] } });
-    fireEvent.submit(input.closest('form'));
+    const form = input.closest('form');
+    if (form) {
+      fireEvent.submit(form);
+    }
     await waitFor(() => expect(screen.getByText(/Upload failed/i)).toBeInTheDocument());
   });
 });

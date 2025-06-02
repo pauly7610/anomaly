@@ -40,3 +40,23 @@ sample_transactions.*
 
 # Ignore IDE
 .idea/
+
+# Ignore mlruns
+mlruns
+
+# MLflow experiment tracking (backend)
+backend/mlruns/
+
+# TypeScript build info
+frontend/tsconfig.tsbuildinfo
+
+# Static export/build
+frontend/out/
+frontend/build/
+
+# Jupyter Notebooks and checkpoints
+*.ipynb
+.ipynb_checkpoints/
+
+# MLflow model registry (if used)
+mlartifacts/

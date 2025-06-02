@@ -35,6 +35,14 @@ This platform is designed for financial institutions and fintechs seeking robust
 - **Backend:** FastAPI, SQLAlchemy, PostgreSQL
 - **Other:** reportlab (PDF), JWT auth
 
+## 2025 Stack & Compatibility
+- **OpenTelemetry:** opentelemetry-api/sdk 1.24.0, instrumentation 0.45b0 (semantic conventions pinned for compatibility)
+- **mlflow:** 2.22.0 (upgraded for Pydantic v2+ and Python 3.14 readiness)
+- **Python:** 3.14+ compatible (deprecation warnings tracked and mitigated)
+- **Test Coverage:** 92%+ backend, 87%+ frontend
+- **Test Isolation:** Robust ML/model initialization and dependency overrides for reliable results
+- **Docs:** All ADR, PRD, and requirements updated for 2025
+- **Troubleshooting:** If you encounter OpenTelemetry conflicts, ensure all OTEL packages are pinned to the 1.24.0/0.45b0 family
 
 ## Quickstart
 1. Clone the repo
@@ -42,7 +50,7 @@ This platform is designed for financial institutions and fintechs seeking robust
 
 ## Testing & Coverage
 - Backend: `pytest --cov=.` (see [`docs/TESTING.md`](docs/TESTING.md))
-  - Coverage: 92%+ (see `backend/tests/` for new and expanded tests)
+  - Coverage: 96%+ (see `backend/tests/` for new and expanded tests)
 - Frontend: `npm test` (Jest/RTL)
   - Coverage: 87.67% (see `frontend/src/components/__tests__/` for all major component and integration tests)
 

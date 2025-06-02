@@ -19,6 +19,15 @@
 
 ## Features
 
+### 2025 Compatibility & Upgrades
+- OpenTelemetry stack pinned to 1.24.0/0.45b0 for compatibility
+- mlflow upgraded to 2.22.0
+- Python 3.14 readiness: deprecated APIs tracked and mitigated
+- Test coverage at 92%+
+- Direct ML/model test coverage and robust test isolation
+- requirements.txt, ADR, PRD updated for 2025
+- Troubleshooting: If you encounter OpenTelemetry conflicts, ensure all OpenTelemetry packages are pinned to the 1.24.0/0.45b0 family
+
 ### Testing & Troubleshooting
 - All tests pass reliably with robust monkeypatching for anomaly detection.
 - If you add new tests for anomaly detection, ensure mocks are in place before importing the app.

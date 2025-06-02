@@ -10,9 +10,6 @@ This ADR documents the core architecture of the financial transaction monitoring
 
 ![Platform Architecture](architecture.png)
 
-*For the source diagram, see `architecture.mmd`. To update the image, edit the `.mmd` file and re-render using Mermaid CLI.*
-
----
 
 ## Data Flow Description
 
@@ -31,3 +28,11 @@ This ADR documents the core architecture of the financial transaction monitoring
 ---
 
 *This ADR should be updated as the architecture evolves. For rendered diagrams, use the Mermaid Live Editor or compatible Markdown viewers.*
+
+---
+
+## 2025 Platform & Dependency Updates
+- OpenTelemetry stack pinned for compatibility (api/sdk 1.24.0, instrumentation 0.45b0)
+- mlflow upgraded, Python 3.14+ readiness (deprecation warnings addressed)
+- Test coverage and ML/model initialization improved for reliability
+- requirements.txt, PRD, and docs updated for 2025

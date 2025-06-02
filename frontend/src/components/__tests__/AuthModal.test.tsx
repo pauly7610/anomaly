@@ -39,7 +39,7 @@ describe('AuthModal additional coverage', () => {
   });
 
   it('shows loading state', async () => {
-    let resolveFetch;
+    let resolveFetch: ((value: any) => void) | undefined;
     (global.fetch as any) = jest.fn(() => new Promise(r => { resolveFetch = r; }));
     render(<AuthModal open={true} onClose={() => {}} onAuth={() => {}} />);
     fireEvent.change(screen.getByPlaceholderText(/Email/i), { target: { value: 'a@b.com' } });
@@ -47,7 +47,9 @@ describe('AuthModal additional coverage', () => {
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
     // The button now says 'Logging in...' and should be disabled
     expect(screen.getByRole('button', { name: /Logging in.../i })).toBeDisabled();
-    resolveFetch({ ok: false, json: async () => ({ detail: 'fail' }) });
+    if (typeof resolveFetch === 'function') {
+      resolveFetch({ ok: false, json: async () => ({ detail: 'fail' }) });
+    }
     await waitFor(() => expect(screen.getByText(/fail/)).toBeInTheDocument());
   });
 
@@ -61,5 +63,14 @@ describe('AuthModal additional coverage', () => {
     render(<AuthModal open={true} onClose={onClose} onAuth={() => {}} />);
     fireEvent.click(screen.getByRole('button', { name: /×/i }));
     expect(onClose).toHaveBeenCalled();
+  });
+
+  it('shows error if fetch throws', async () => {
+    (global.fetch as any) = jest.fn(() => { throw new Error('Network fail'); });
+    render(<AuthModal open={true} onClose={() => {}} onAuth={() => {}} />);
+    fireEvent.change(screen.getByPlaceholderText(/Email/i), { target: { value: 'fail@ex.com' } });
+    fireEvent.change(screen.getByPlaceholderText(/Password/i), { target: { value: 'fail' } });
+    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+    await waitFor(() => expect(screen.getByText(/Request failed/i)).toBeInTheDocument());
   });
 });

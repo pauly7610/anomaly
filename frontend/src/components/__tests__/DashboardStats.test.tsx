@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import DashboardStats from '../DashboardStats';
@@ -15,8 +16,8 @@ beforeAll(() => {
 });
 
 describe('DashboardStats', () => {
-  it('renders dashboard stats headings', () => {
-    render(<DashboardStats />);
+  it('renders dashboard stats headings', async () => {
+    await act(async () => { render(<DashboardStats />); });
     expect(screen.getByText(/Dashboard Overview/i)).toBeInTheDocument();
   });
 });
@@ -26,27 +27,34 @@ describe('DashboardStats additional coverage', () => {
     (global.fetch as any) = jest.fn().mockResolvedValueOnce({
       ok: false,
       json: async () => ({
-        detail: 'err',
-        totals: {},
-        daily: [],
-        type_distribution: [],
-        largest_transactions: [],
-        recent_anomalies: []
+  total_transactions: 0,
+  num_anomalies: 0,
+  average_amount: 0,
+  volume_over_time: [],
+  anomaly_rate_over_time: [],
+  top_customers: [],
+  type_distribution: [],
+  largest_transactions: [],
+  recent_anomalies: [],
+  detail: 'err',
+  totals: {},
+  daily: []
       })
     });
-    render(<DashboardStats />);
+    await act(async () => { render(<DashboardStats />); });
     await waitFor(() => expect(screen.getByText(/err/)).toBeInTheDocument());
   });
 
   it('renders loading state', async () => {
-    let resolveFetch;
+    let resolveFetch: ((value: any) => void) | undefined;
     (global.fetch as any) = jest.fn(() => new Promise(r => { resolveFetch = r; }));
-    render(<DashboardStats />);
+    await act(async () => { render(<DashboardStats />); });
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
-    if (resolveFetch) {
+    if (typeof resolveFetch === 'function') {
       resolveFetch({ ok: true, json: async () => ({
-        totals: {},
-        daily: [],
+        total_transactions: 0,
+        num_anomalies: 0,
+        average_amount: 0,
         type_distribution: [],
         largest_transactions: [],
         recent_anomalies: []
@@ -59,10 +67,10 @@ describe('DashboardStats additional coverage', () => {
     (global.fetch as any) = jest.fn().mockResolvedValueOnce({
       ok: true,
       json: async () => ({
-        total_transactions: 2,
-        num_anomalies: 1,
-        average_amount: 75,
-        volume_over_time: [
+  total_transactions: 2,
+  num_anomalies: 1,
+  average_amount: 75,
+  volume_over_time: [
           { date: '2023-01-01', count: 1 },
           { date: '2023-01-02', count: 1 }
         ],
@@ -88,7 +96,7 @@ describe('DashboardStats additional coverage', () => {
       })
     });
     await act(async () => {
-      render(<DashboardStats />);
+      await act(async () => { render(<DashboardStats />); });
     });
     // Wait for loading to disappear
     await waitFor(() => expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument());
@@ -111,19 +119,20 @@ describe('DashboardStats additional coverage', () => {
     (global.fetch as any) = jest.fn().mockResolvedValueOnce({
       ok: true,
       json: async () => ({
-        total_transactions: 0,
-        num_anomalies: 0,
-        average_amount: 0,
-        volume_over_time: [],
-        anomaly_rate_over_time: [],
-        top_customers: [],
-        type_distribution: [],
-        largest_transactions: [],
-        recent_anomalies: []
+  total_transactions: 0,
+  num_anomalies: 0,
+  average_amount: 0,
+  volume_over_time: [],
+  anomaly_rate_over_time: [],
+  top_customers: [],
+  type_distribution: [],
+  largest_transactions: [],
+  recent_anomalies: [],
+
       })
     });
     await act(async () => {
-      render(<DashboardStats />);
+      await act(async () => { render(<DashboardStats />); });
     });
     await waitFor(() => expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument());
     expect(screen.getByText(/Largest Transactions/i)).toBeInTheDocument();
@@ -134,19 +143,20 @@ describe('DashboardStats additional coverage', () => {
     (global.fetch as any) = jest.fn().mockResolvedValue({
       ok: true,
       json: async () => ({
-        total_transactions: 0,
-        num_anomalies: 0,
-        average_amount: 0,
-        volume_over_time: [],
-        anomaly_rate_over_time: [],
-        top_customers: [],
-        type_distribution: [],
-        largest_transactions: [],
-        recent_anomalies: []
+  total_transactions: 0,
+  num_anomalies: 0,
+  average_amount: 0,
+  volume_over_time: [],
+  anomaly_rate_over_time: [],
+  top_customers: [],
+  type_distribution: [],
+  largest_transactions: [],
+  recent_anomalies: [],
+
       })
     });
     await act(async () => {
-      render(<DashboardStats />);
+      await act(async () => { render(<DashboardStats />); });
     });
     // Simulate filter change (if filter controls are rendered)
     const startInput = screen.queryByLabelText(/start/i);
@@ -154,5 +164,53 @@ describe('DashboardStats additional coverage', () => {
       fireEvent.change(startInput, { target: { value: '2023-01-01' } });
       await waitFor(() => expect(global.fetch).toHaveBeenCalled());
     }
+  });
+});
+
+describe('DashboardStats edge cases', () => {
+  it('renders with empty stats object', async () => {
+    (global.fetch as any) = jest.fn().mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({})
+    });
+    await act(async () => { render(<DashboardStats />); });
+    await waitFor(() => expect(screen.getByText(/Dashboard Overview/i)).toBeInTheDocument());
+  });
+
+  it('renders with parent filters', async () => {
+    (global.fetch as any) = jest.fn().mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({})
+    });
+    const filters = { start_date: '2024-01-01', end_date: '2024-01-31' };
+    const setFilters = jest.fn();
+    await act(async () => { render(<DashboardStats filters={filters} setFilters={setFilters} />); });
+    await waitFor(() => expect(screen.getByText(/Dashboard Overview/i)).toBeInTheDocument());
+  });
+
+  it('renders with null stats', async () => {
+    (global.fetch as any) = jest.fn().mockResolvedValueOnce({
+      ok: true,
+      json: async () => null
+    });
+    await act(async () => { render(<DashboardStats />); });
+    await waitFor(() => expect(screen.getByText(/Dashboard Overview/i)).toBeInTheDocument());
+  });
+
+  it('renders error at end', async () => {
+    (global.fetch as any) = jest.fn().mockResolvedValueOnce({ ok: false, json: async () => ({ detail: 'Final error' }) });
+    await act(async () => { render(<DashboardStats />); });
+    await waitFor(() => expect(screen.getByText(/Final error/i)).toBeInTheDocument());
+  });
+
+  it('renders loading at end', async () => {
+    let resolveFetch: ((value: any) => void) | undefined;
+    (global.fetch as any) = jest.fn(() => new Promise(r => { resolveFetch = r; }));
+    await act(async () => { render(<DashboardStats />); });
+    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+    if (typeof resolveFetch === 'function') {
+      resolveFetch({ ok: true, json: async () => ({}) });
+    }
+    await waitFor(() => expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument());
   });
 });

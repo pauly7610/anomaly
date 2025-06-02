@@ -149,14 +149,14 @@ export default function DashboardStats({ filters: parentFilters, setFilters: par
             <div className="bg-white rounded-lg shadow transition-shadow hover:shadow-lg p-4">
               <ResponsiveContainer width="100%" height={220}>
                 <PieChart>
-                  <Pie data={stats.type_distribution} dataKey="count" nameKey="type" cx="50%" cy="50%" outerRadius={70} label>
-                    {stats.type_distribution.map((entry: any, idx: number) => (
+                  <Pie data={stats.type_distribution ?? []} dataKey="count" nameKey="type" cx="50%" cy="50%" outerRadius={70} label>
+                    {(stats.type_distribution ?? []).map((entry: any, idx: number) => (
                       <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
                     ))}
                   </Pie>
                   <Legend content={({ payload }) => (
                     <ul className="flex flex-wrap gap-2 mt-2">
-                      {payload?.map((entry: any, idx: number) => (
+                      {(payload ?? []).map((entry: any, idx: number) => (
                         <li key={entry.value} className="flex items-center gap-1">
                           <span style={{ backgroundColor: entry.color }} className="inline-block w-3 h-3 rounded-full border border-gray-200"></span>
                           <span className="text-xs font-medium">{entry.value}</span>
@@ -191,7 +191,7 @@ export default function DashboardStats({ filters: parentFilters, setFilters: par
                   </tr>
                 </thead>
                 <tbody>
-                  {stats.largest_transactions.map((tx: any, idx: number) => (
+                  {(Array.isArray(stats.largest_transactions) ? stats.largest_transactions : []).map((tx: any, idx: number) => (
                     <tr key={tx.id} className={`transition-colors ${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'} hover:bg-blue-50 ${tx.is_anomaly ? 'bg-red-50 hover:bg-red-100' : ''}`}>
                       <td className="px-2 py-1 font-mono">{tx.id}</td>
                       <td className="px-2 py-1">${Number(tx.amount).toFixed(2)}</td>
@@ -228,7 +228,7 @@ export default function DashboardStats({ filters: parentFilters, setFilters: par
                   </tr>
                 </thead>
                 <tbody>
-                  {stats.recent_anomalies.map((tx: any, idx: number) => (
+                  {(Array.isArray(stats.recent_anomalies) ? stats.recent_anomalies : []).map((tx: any, idx: number) => (
                     <tr key={tx.id} className={`transition-colors ${idx % 2 === 0 ? 'bg-red-50' : 'bg-white'} hover:bg-red-100`}>
                       <td className="px-2 py-1 font-mono">{tx.id}</td>
                       <td className="px-2 py-1">${Number(tx.amount).toFixed(2)}</td>

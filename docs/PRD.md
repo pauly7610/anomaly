@@ -57,6 +57,15 @@ A full-stack web application for uploading, analyzing, and visualizing synthetic
 
 ---
 
+## 2025 Stack & Requirements Updates
+- Python 3.14+ readiness and deprecation tracking
+- OpenTelemetry stack pinned for compatibility
+- mlflow upgraded
+- Test coverage and ML/model test isolation improved
+- requirements.txt, ADR, and docs updated for 2025
+
+---
+
 ## Future Enhancements
 - Role-based access control
 - Customizable analytics widgets
